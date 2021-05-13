@@ -1,13 +1,9 @@
-name: SpigotBlankPlugin
-main: com.meeku.tutorialPlugin.SpigotBlankPlugin
+name: SlideshowPlugin
+main: com.meeku.tutorialPlugin.SlideshowPlugin
 version: 1.0
 api-version: 1.13
 commands:
-   kit:
-      description: Your description
-      usage: /<command>
-      permission: yourplugin.yourcommandpermission 
    slideshow:
       description: Your description
-      usage: /<command>
-      permission: yourplugin.yourcommandpermission 
+      usage: /<command> create, /<command> list
+       
