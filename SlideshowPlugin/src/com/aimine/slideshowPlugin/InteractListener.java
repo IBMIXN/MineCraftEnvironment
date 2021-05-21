@@ -50,6 +50,23 @@ public class InteractListener implements Listener { //A listener that waits for 
 						}
 					}
 				}
+				if(event.getItem().hasItemMeta() && event.getItem().getItemMeta().getPersistentDataContainer().has(Ref.bRemoteIdentifier, PersistentDataType.BYTE)) {
+					Block baseBlock = selectTwo.getFrom();
+					for (Entity e : baseBlock.getWorld().getNearbyEntities(baseBlock.getLocation(), 2, 2, 2)) {
+						ItemFrame frame = (ItemFrame) e; //Selects the slideshow display
+						DisplayManager.attemptDisplayDeletion(frame, player); //Clears the slideshow display 
+						selectTwo.setImageName(images[count]);
+						DisplayManager.attemptCreateDisplay(selectTwo, player); //Display image with the current count
+						if (count == 0) {
+							count = images.length - 1;
+							break;
+						}
+						else {
+							count--; //Decrements count in order to display previous image
+							break;
+						}
+					}
+				}
 			}
 		}
 		
@@ -57,20 +74,23 @@ public class InteractListener implements Listener { //A listener that waits for 
 			if(event.getItem() != null) {
 				final Player player = event.getPlayer();
 				if(SlideshowPlugin.getInstance().getSelections().containsKey(player.getUniqueId())) {
-					if(event.getItem().hasItemMeta() && event.getItem().getItemMeta().getPersistentDataContainer().has(Reference.wandIdentifier, PersistentDataType.BYTE)) { //Checks that the player has the creation wand to draw the display for the slideshow
+					if(event.getItem().hasItemMeta() && event.getItem().getItemMeta().getPersistentDataContainer().has(Reference.wandIdentifier, PersistentDataType.BYTE ) && event.getItem().isSimilar(player.getInventory().getItemInMainHand()) ) { //Checks that the player has the creation wand to draw the display for the slideshow
 						Selection selection = SlideshowPlugin.getInstance().getSelections().get(player.getUniqueId());
+						
 						if(selection.getFrom() == null) {
 							Block blockLook = player.getTargetBlockExact(5);
 							BlockFace faceLooking = SelectionHighlightTask.getBlockFace(player);
 							
 							if(faceLooking == BlockFace.UP || faceLooking == BlockFace.DOWN) {
 								player.sendMessage(Ref.PREFIX + Ref.colour("&cYou cannot place displays on the floor or ceiling"));
-							} else {
+							}
+							else {
 								selection.setFrom(blockLook.getRelative(faceLooking));
 								selection.setFace(faceLooking);
 								player.sendMessage(Ref.PREFIX + Ref.colour("&aFirst display corner location set"));
 							}
-						} else {
+						}
+						else {
 							Block blockLook = player.getTargetBlockExact(5);
 							BlockFace faceLooking = SelectionHighlightTask.getBlockFace(player);
 							if(faceLooking == null || blockLook == null) return;
@@ -88,16 +108,17 @@ public class InteractListener implements Listener { //A listener that waits for 
 								
 								selectTwo = selection;
 								DisplayManager.attemptCreateDisplay(selection, player);
-								
 								player.getInventory().addItem(Ref.forwardRemote);
+								player.getInventory().addItem(Ref.backwardsRemote);
 								images = Reference.bannerFolder.list();
 								count = 1;
 								VerifyImages(player);
-								player.sendMessage(Ref.PREFIX + Ref.colour("&aGiven you the forward remote"));
-								player.sendMessage(Ref.colour("&7- &6Right click to move to the next slide"));
+								player.sendMessage(Ref.PREFIX + Ref.colour("&aGiven you the forward and backwards remotes"));
+								player.sendMessage(Ref.colour("&7- &6Right click to interact with remote"));
 								
 								SlideshowPlugin.getInstance().getSelections().remove(player.getUniqueId());
-							} else {
+							}
+							else {
 								player.sendMessage(Ref.PREFIX + Ref.colour("&cYou cannot place a display at this location (Must be 1 block thick)"));
 							}
 						}

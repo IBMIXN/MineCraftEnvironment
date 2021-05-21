@@ -20,7 +20,7 @@ public class CommandHello implements CommandExecutor{
 			if(args[0].equalsIgnoreCase("create")) {
 				if(sender.hasPermission(Ref.PERMISSION_CREATE)) {
 					if(!SlideshowPlugin.getInstance().getSelections().containsKey(player.getUniqueId())) {
-						String[] images = Ref.bannerFolder.list();
+						String[] images = Reference.bannerFolder.list();
 						Selection selection = new Selection(images[0]);
 						if(selection.imageExists()) {
 							SlideshowPlugin.getInstance().getSelections().put(player.getUniqueId(), selection);

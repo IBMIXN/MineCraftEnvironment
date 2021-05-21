@@ -1,9 +1,8 @@
 name: SlideshowPlugin
-main: com.meeku.tutorialPlugin.SlideshowPlugin
+main: com.aimine.slideshowPlugin.SlideshowPlugin
 version: 1.0
 api-version: 1.13
 commands:
    slideshow:
       description: Your description
       usage: /<command> create, /<command> list
-       

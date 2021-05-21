@@ -18,6 +18,8 @@ public class Ref {
 	public static File bannerFolder;
 	public static NamespacedKey remoteIdentifier;
 	public static ItemStack forwardRemote;
+	public static NamespacedKey bRemoteIdentifier;
+	public static ItemStack backwardsRemote;
 	
 	public static String colour(String str) {
 		return ChatColor.translateAlternateColorCodes('&', str);
@@ -25,6 +27,7 @@ public class Ref {
 	
 	public static void init() {
 		remoteIdentifier = new NamespacedKey(SlideshowPlugin.getInstance(), "isForwardRemote");
+		bRemoteIdentifier = new NamespacedKey(SlideshowPlugin.getInstance(), "isBackwardsRemote");
 		
 		forwardRemote = new ItemStack(Material.DIAMOND);
 		ItemMeta meta = forwardRemote.getItemMeta();
@@ -32,5 +35,12 @@ public class Ref {
 		meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, false);
 		meta.getPersistentDataContainer().set(remoteIdentifier, PersistentDataType.BYTE, (byte)0x01);
 		forwardRemote.setItemMeta(meta);
+		
+		backwardsRemote = new ItemStack(Material.DIAMOND);
+		ItemMeta bmeta = forwardRemote.getItemMeta();
+		bmeta.setDisplayName(colour("&a&lBackwards Remote"));
+		bmeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, false);
+		bmeta.getPersistentDataContainer().set(bRemoteIdentifier, PersistentDataType.BYTE, (byte)0x01);
+		backwardsRemote.setItemMeta(bmeta);
 	}
 }

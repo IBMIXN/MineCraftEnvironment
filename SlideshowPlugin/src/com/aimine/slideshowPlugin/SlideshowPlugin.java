@@ -9,13 +9,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.tek.idisplays.ImageDisplayCommand;
 import com.tek.idisplays.Reference;
 import com.tek.idisplays.Selection;
 import com.tek.idisplays.async.MapCreationManager;
-import com.tek.idisplays.listeners.ItemFrameListener;
-import com.tek.idisplays.listeners.MovementListener;
-import com.tek.idisplays.listeners.WorldListener;
 import com.tek.idisplays.map.MapManager;
 import com.tek.idisplays.tasks.SelectionHighlightTask;
 import com.tek.idisplays.tasks.WandCheckingTask;
@@ -47,13 +43,6 @@ public class SlideshowPlugin extends JavaPlugin {
 		Ref.init();
 		mapManager.getMapCache().addAll(mapManager.readCache());
 		
-		getCommand("imagedisplays").setExecutor(new ImageDisplayCommand());
-		getCommand("imagedisplays").setTabCompleter(new ImageDisplayCommand.ImageDisplayCompleter());
-		
-		getServer().getPluginManager().registerEvents(new WorldListener(), this);
-		getServer().getPluginManager().registerEvents(new ItemFrameListener(), this);
-		getServer().getPluginManager().registerEvents(new MovementListener(), this);
-		getServer().getPluginManager().registerEvents(new InteractListener(), this);
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new WandCheckingTask(), 0, 20);
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new SelectionHighlightTask(), 0, 5);
